@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier la recette{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Modifier la recette</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-primary mt-3">Enregistrer les modifications</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('app_recette_index') }}" class="btn btn-link mt-3">Retour à la liste</a>
+</div>
+{% endblock %}

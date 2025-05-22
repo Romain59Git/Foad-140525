@@ -34,9 +34,9 @@ class RecetteRepository extends ServiceEntityRepository
 
     public function save(Recette $recette, bool $flush = false): void
     {
-        $this->_em->persist($recette);
+        $this->getEntityManager()->persist($recette);
         if ($flush) {
-            $this->_em->flush();
+            $this->getEntityManager()->flush();
         }
     }
 }

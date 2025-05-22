@@ -1,11 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Création d'une recette{% endblock %}
+{% block title %}Création d'une nouvelle recette{% endblock %}
 
 {% block body %}
-<div class="container">
-    <h1 class = " mt-4 ">Création d'une recette</h1>
+<div class="container mt-4">
+    <h1 class="text-center my-4 display-4">Création d'une nouvelle recette!</h1>
 
-    {{ form(form) }}
-        
+    {{ form_start(form) }}
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(form.name) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.time) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(form.nbPeople) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.difficulty) }}
+            </div>
+        </div>
+        {{ form_row(form.description) }}
+        {{ form_row(form.price) }}
+
+        <div class="form-group">
+            {{ form_label(form.isFavorite) }}
+            {{ form_widget(form.isFavorite) }}
+        </div>
+
+        <div class="form-group mt-3">
+            <h4>{{ form_label(form.ingredients) }}</h4>
+            <div class="row">
+                {% for ingredientField in form.ingredients %}
+                    <div class="col-md-3 col-sm-6">
+                        {{ form_widget(ingredientField) }} {{ form_label(ingredientField) }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="text-center">
+            {{ form_row(form.submit) }}
+        </div>
+
+    {{ form_end(form) }}
+
+</div>
 {% endblock %}

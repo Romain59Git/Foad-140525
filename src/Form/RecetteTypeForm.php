@@ -50,7 +50,7 @@ class RecetteTypeForm extends AbstractType
                 'label' => 'Ingredients',
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Create my recipe',
+                'label' => 'Créer la recette',
                 'attr' => ['class' => 'btn btn-primary mt-4']
             ])
         ;

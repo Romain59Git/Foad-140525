@@ -31,4 +31,12 @@ class RecetteRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function save(Recette $recette, bool $flush = false): void
+    {
+        $this->_em->persist($recette);
+        if ($flush) {
+            $this->_em->flush();
+        }
+    }
 }

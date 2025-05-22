@@ -5,8 +5,16 @@
 {% block body %}
 <div class="container mt-4">
 
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
     {% if recettes|length > 0 %}
         <h1>Mes recettes</h1>
+
+        <a href="{{ path('app_recette_new') }}" class="btn btn-warning mb-3">Ajouter une recette</a>
 
         <div class="count mt-4">
             <h4>Il y a {{ recettes.getTotalItemCount }} recettes</h4>
@@ -26,7 +34,7 @@
             </thead>
             <tbody>
                 {% for recette in recettes %}
-                    <tr class="table-primary">
+                    <tr class="table-danger">
                         <th scope="row">{{ (recettes.currentPageNumber - 1) * recettes.itemNumberPerPage + loop.index }}</th>
                         <td>{{ recette.name }}</td>
                         <td>{{ recette.price }}</td>

@@ -7,8 +7,9 @@ use App\Entity\Ingredient;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-class RecetteFixtures extends Fixture
+class RecetteFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -32,18 +33,20 @@ class RecetteFixtures extends Fixture
             $recette->setIsFavorite($faker->boolean(20)); // 20% de chance d'être favori
             $recette->setCreatedAt(new \DateTimeImmutable());
             $recette->setUpdatedAt(new \DateTimeImmutable());
-
+            $userIndex = $faker->numberBetween(0, 9);
+            $recette->setUser($this->getReference('user_' . $userIndex, \App\Entity\User::class));
             // Ajout d'ingrédients aléatoires (entre 3 et 8 ingrédients)
             $nbIngredients = $faker->numberBetween(3, min(8, count($ingredients)));
             $randomIngredients = $faker->randomElements($ingredients, $nbIngredients);
-            
             foreach ($randomIngredients as $ingredient) {
                 $recette->addIngredient($ingredient);
             }
-
             $manager->persist($recette);
         }
-
         $manager->flush();
+    }
+    public function getDependencies(): array
+    {
+        return [UserFixtures::class, IngredientFixtures::class];
     }
 }

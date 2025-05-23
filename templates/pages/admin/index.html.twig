@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Administration</h1>
+    
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card bg-primary text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title">Utilisateurs</h6>
+                            <h2 class="mb-0">{{ stats.users }}</h2>
+                        </div>
+                        <i class="fas fa-users fa-2x"></i>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" href="{{ path('admin_users') }}">Voir détails</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-success text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title">Ingrédients</h6>
+                            <h2 class="mb-0">{{ stats.ingredients }}</h2>
+                        </div>
+                        <i class="fas fa-carrot fa-2x"></i>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" href="{{ path('admin_ingredients') }}">Voir détails</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-warning text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title">Recettes</h6>
+                            <h2 class="mb-0">{{ stats.recettes }}</h2>
+                        </div>
+                        <i class="fas fa-utensils fa-2x"></i>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" href="{{ path('admin_recettes') }}">Voir détails</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Utilisateurs</h5>
+                    <p class="card-text">Gérer les utilisateurs de l'application</p>
+                    <a href="{{ path('admin_users') }}" class="btn btn-primary">Gérer les utilisateurs</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Ingrédients</h5>
+                    <p class="card-text">Gérer les ingrédients disponibles</p>
+                    <a href="{{ path('admin_ingredients') }}" class="btn btn-primary">Gérer les ingrédients</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Recettes</h5>
+                    <p class="card-text">Gérer les recettes de l'application</p>
+                    <a href="{{ path('admin_recettes') }}" class="btn btn-primary">Gérer les recettes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

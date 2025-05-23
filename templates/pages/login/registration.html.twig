@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}S'enregistrer{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1 class="mt-4">Formulaire D'inscription</h1>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success mt-4">{{ message }}</div>
+    {% endfor %}
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+    {{ form_end(form) }}
+</div>
+{% endblock %} 

@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des recettes{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Liste des recettes</h1>
+        <a href="{{ path('admin_recette_new') }}" class="btn btn-success">
+            <i class="fas fa-plus"></i> Nouvelle recette
+        </a>
+    </div>
+    
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <form action="{{ path('admin_recettes') }}" method="get" class="d-flex">
+                <input type="text" name="search" value="{{ search }}" class="form-control me-2" placeholder="Rechercher...">
+                <button type="submit" class="btn btn-primary">Rechercher</button>
+            </form>
+        </div>
+    </div>
+
+    <table class="table table-striped mt-4">
+        <thead>
+            <tr>
+                <th>
+                    <a href="{{ path('admin_recettes', {
+                        'sort': 'r.id',
+                        'direction': sort == 'r.id' and direction == 'asc' ? 'desc' : 'asc',
+                        'search': search
+                    }) }}" class="text-dark text-decoration-none">
+                        ID
+                        {% if sort == 'r.id' %}
+                            <i class="fas fa-sort-{{ direction == 'asc' ? 'up' : 'down' }}"></i>
+                        {% endif %}
+                    </a>
+                </th>
+                <th>
+                    <a href="{{ path('admin_recettes', {
+                        'sort': 'r.name',
+                        'direction': sort == 'r.name' and direction == 'asc' ? 'desc' : 'asc',
+                        'search': search
+                    }) }}" class="text-dark text-decoration-none">
+                        Nom
+                        {% if sort == 'r.name' %}
+                            <i class="fas fa-sort-{{ direction == 'asc' ? 'up' : 'down' }}"></i>
+                        {% endif %}
+                    </a>
+                </th>
+                <th>
+                    <a href="{{ path('admin_recettes', {
+                        'sort': 'r.price',
+                        'direction': sort == 'r.price' and direction == 'asc' ? 'desc' : 'asc',
+                        'search': search
+                    }) }}" class="text-dark text-decoration-none">
+                        Prix
+                        {% if sort == 'r.price' %}
+                            <i class="fas fa-sort-{{ direction == 'asc' ? 'up' : 'down' }}"></i>
+                        {% endif %}
+                    </a>
+                </th>
+                <th>
+                    <a href="{{ path('admin_recettes', {
+                        'sort': 'r.createdAt',
+                        'direction': sort == 'r.createdAt' and direction == 'asc' ? 'desc' : 'asc',
+                        'search': search
+                    }) }}" class="text-dark text-decoration-none">
+                        Créé le
+                        {% if sort == 'r.createdAt' %}
+                            <i class="fas fa-sort-{{ direction == 'asc' ? 'up' : 'down' }}"></i>
+                        {% endif %}
+                    </a>
+                </th>
+                <th>Créé par</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for recette in recettes %}
+                <tr>
+                    <td>{{ recette.id }}</td>
+                    <td>{{ recette.name }}</td>
+                    <td>{{ recette.price }}</td>
+                    <td>{{ recette.createdAt|date('d/m/Y H:i') }}</td>
+                    <td>{{ recette.user.email }}</td>
+                    <td>
+                        <a href="{{ path('admin_recette_edit', {id: recette.id}) }}" class="btn btn-info btn-sm">Modifier</a>
+                        <form action="{{ path('admin_recette_delete', {id: recette.id}) }}" method="post" style="display:inline-block" onsubmit="return confirm('Confirmer la suppression ?')">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete_recette_' ~ recette.id) }}">
+                            <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center mt-4">
+        {{ knp_pagination_render(recettes) }}
+    </div>
+</div>
+{% endblock %} 

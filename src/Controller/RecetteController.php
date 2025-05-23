@@ -11,14 +11,16 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Form\RecetteTypeForm;
 use App\Entity\Recette;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class RecetteController extends AbstractController
 {
+    #[IsGranted('ROLE_USER')]
     #[Route('/recette', name: 'app_recette', methods:['GET'])]
     public function index(RecetteRepository $recetteRepository, PaginatorInterface $paginator, Request $request): Response
     {
         $recettes = $paginator->paginate(
-            $recetteRepository->findAll(),
+            $recetteRepository->findByUser($this->getUser()),
             $request->query->getInt('page', 1),
             10
         );
@@ -28,6 +30,7 @@ class RecetteController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/recette/new', name: 'app_recette_new', methods:['GET','POST'])]
     public function new(Request $request, RecetteRepository $recetteRepository): Response
     {
@@ -36,6 +39,7 @@ class RecetteController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $recette->setUser($this->getUser());
             $recetteRepository->save($recette, true);
 
             $this->addFlash('success', 'La recette a été créée avec succès.');
@@ -48,6 +52,7 @@ class RecetteController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/recette/edit/{id}', name: 'app_recette_edit', methods:['GET','POST'])]
     public function edit(Request $request, Recette $recette, EntityManagerInterface $manager): Response
     {
@@ -69,6 +74,7 @@ class RecetteController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('/recette/delete/{id}', name: 'app_recette_delete', methods:['DELETE'])]
     public function delete(Request $request, Recette $recette, RecetteRepository $recetteRepository): Response
     {

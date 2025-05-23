@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des utilisateurs{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Liste des utilisateurs</h1>
+        <a href="{{ path('admin_user_new') }}" class="btn btn-success">
+            <i class="fas fa-plus"></i> Nouvel utilisateur
+        </a>
+    </div>
+    
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <form action="{{ path('admin_users') }}" method="get" class="d-flex">
+                <input type="text" name="search" value="{{ search }}" class="form-control me-2" placeholder="Rechercher...">
+                <button type="submit" class="btn btn-primary">Rechercher</button>
+            </form>
+        </div>
+    </div>
+
+    <table class="table table-striped mt-4">
+        <thead>
+            <tr>
+                <th>
+                    <a href="{{ path('admin_users', {
+                        'sort': 'u.id',
+                        'direction': sort == 'u.id' and direction == 'asc' ? 'desc' : 'asc',
+                        'search': search
+                    }) }}" class="text-dark text-decoration-none">
+                        ID
+                        {% if sort == 'u.id' %}
+                            <i class="fas fa-sort-{{ direction == 'asc' ? 'up' : 'down' }}"></i>
+                        {% endif %}
+                    </a>
+                </th>
+                <th>
+                    <a href="{{ path('admin_users', {
+                        'sort': 'u.email',
+                        'direction': sort == 'u.email' and direction == 'asc' ? 'desc' : 'asc',
+                        'search': search
+                    }) }}" class="text-dark text-decoration-none">
+                        Email
+                        {% if sort == 'u.email' %}
+                            <i class="fas fa-sort-{{ direction == 'asc' ? 'up' : 'down' }}"></i>
+                        {% endif %}
+                    </a>
+                </th>
+                <th>
+                    <a href="{{ path('admin_users', {
+                        'sort': 'u.pseudo',
+                        'direction': sort == 'u.pseudo' and direction == 'asc' ? 'desc' : 'asc',
+                        'search': search
+                    }) }}" class="text-dark text-decoration-none">
+                        Pseudo
+                        {% if sort == 'u.pseudo' %}
+                            <i class="fas fa-sort-{{ direction == 'asc' ? 'up' : 'down' }}"></i>
+                        {% endif %}
+                    </a>
+                </th>
+                <th>Rôles</th>
+                <th>
+                    <a href="{{ path('admin_users', {
+                        'sort': 'u.createdAt',
+                        'direction': sort == 'u.createdAt' and direction == 'asc' ? 'desc' : 'asc',
+                        'search': search
+                    }) }}" class="text-dark text-decoration-none">
+                        Date de création
+                        {% if sort == 'u.createdAt' %}
+                            <i class="fas fa-sort-{{ direction == 'asc' ? 'up' : 'down' }}"></i>
+                        {% endif %}
+                    </a>
+                </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.pseudo }}</td>
+                    <td>{{ user.roles|join(', ') }}</td>
+                    <td>{{ user.createdAt|date('d/m/Y H:i') }}</td>
+                    <td>
+                        <a href="{{ path('admin_user_edit', {id: user.id}) }}" class="btn btn-info btn-sm">Modifier</a>
+                        <form action="{{ path('admin_user_delete', {id: user.id}) }}" method="post" style="display:inline-block" onsubmit="return confirm('Confirmer la suppression ?')">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete_user_' ~ user.id) }}">
+                            <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center mt-4">
+        {{ knp_pagination_render(users) }}
+    </div>
+</div>
+{% endblock %} 

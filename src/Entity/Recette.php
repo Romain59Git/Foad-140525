@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Entity\User;
 
 #[ORM\Entity(repositoryClass: RecetteRepository::class)]
 #[UniqueEntity('name', message: 'Ce nom de recette existe déjà.')]
@@ -62,6 +63,10 @@ class Recette
 
     #[ORM\ManyToMany(targetEntity: Ingredient::class, inversedBy: 'recettes')]
     private Collection $ingredients;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'recettes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
 
     public function __construct()
     {
@@ -209,6 +214,17 @@ class Recette
         if ($this->ingredients->removeElement($ingredient)) {
             $ingredient->removeRecette($this);
         }
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
         return $this;
     }
 }

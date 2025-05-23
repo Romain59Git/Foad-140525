@@ -32,6 +32,16 @@ class RecetteRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findByUser($user): array
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('r.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function save(Recette $recette, bool $flush = false): void
     {
         $this->getEntityManager()->persist($recette);

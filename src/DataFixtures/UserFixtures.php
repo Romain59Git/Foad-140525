@@ -22,7 +22,17 @@ class UserFixtures extends Fixture
                 ->setPlainPassword('password');
 
             $manager->persist($user);
+            $this->addReference('user_' . $i, $user);
         }
+
+        // Utilisateur admin
+        $admin = new User();
+        $admin->setEmail('admin@admin.com')
+            ->setPseudo('admin')
+            ->setRoles(['ROLE_ADMIN'])
+            ->setPlainPassword('admin');
+        $manager->persist($admin);
+        $this->addReference('user_admin', $admin);
 
         $manager->flush();
     }

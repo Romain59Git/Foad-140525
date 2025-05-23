@@ -9,6 +9,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+
 class RecetteTypeForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -38,9 +40,15 @@ class RecetteTypeForm extends AbstractType
                 'label' => 'Price',
                 'attr' => ['class' => 'form-control']
             ])
-            ->add('isFavorite', null, [
-                'label' => 'Favorite',
-                'required' => false
+            ->add('isFavorite', CheckboxType::class, [
+                'label' => 'Favori ?',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-check-input mt-3 mt-4'
+                ],
+                'label_attr' => [
+                    'class' => 'form-label mt-4'
+                ]
             ])
             ->add('ingredients', EntityType::class, [
                 'class' => Ingredient::class,
@@ -48,9 +56,12 @@ class RecetteTypeForm extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
                 'label' => 'Ingredients',
+                'attr' => [
+                    'class' => 'ingredients-wrapper'
+                ]
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Créer la recette',
+                'label' => $options['submit_label'],
                 'attr' => ['class' => 'btn btn-primary mt-4']
             ])
         ;
@@ -60,6 +71,7 @@ class RecetteTypeForm extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Recette::class,
+            'submit_label' => 'Créer la recette',
         ]);
     }
 }

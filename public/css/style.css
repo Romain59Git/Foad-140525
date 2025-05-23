@@ -1,0 +1,22 @@
+.ingredients-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.ingredients-wrapper > div {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+}
+
+.form-check-input {
+    margin-right: 5px;
+}
+
+.form-check-label {
+    margin-bottom: 0;
+} 

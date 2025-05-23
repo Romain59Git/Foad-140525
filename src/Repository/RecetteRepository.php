@@ -39,4 +39,12 @@ class RecetteRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function remove(Recette $recette, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($recette);
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 }

@@ -41,10 +41,14 @@
                         <td>{{ recette.difficulty }}</td>
                         <td>{{ recette.createdAt|date('d/m/Y') }}</td>
                         <td>
-                          Todo
+                            <a href="{{ path('app_recette_edit', { id: recette.id }) }}" class="btn btn-info">Modifier</a>
                         </td>
                         <td>
-                          Todo
+                            <form method="post" action="{{ path('app_recette_delete', { id: recette.id }) }}" style="display:inline-block;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette recette ?')">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ recette.id) }}">
+                                <button type="submit" class="btn btn-danger">Supprimer</button>
+                            </form>
                         </td>   
                     </tr>
 
